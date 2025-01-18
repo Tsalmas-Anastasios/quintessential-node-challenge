@@ -1,0 +1,1 @@
+// use this file to keep the sql_queries folder created on git
