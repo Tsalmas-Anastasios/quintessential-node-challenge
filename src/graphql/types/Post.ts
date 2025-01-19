@@ -1,4 +1,7 @@
-import { GraphQLInt, GraphQLObjectType, GraphQLString } from 'graphql';
+import { GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLString } from 'graphql';
+import { PostCommentType } from './PostComment';
+import { Post } from 'models';
+import { utilsService } from '../../lib/utilities.service';
 
 
 
@@ -16,6 +19,38 @@ const PostType = new GraphQLObjectType({
         likes: { type: GraphQLInt },
         created_at: { type: GraphQLString },
         updated_at: { type: GraphQLString },
+
+
+        comments: {
+            type: new GraphQLList(PostCommentType),
+            resolve: async (post: Post, args, context, info) => {
+
+                try {
+
+                    const comments_result = await utilsService.mysqlDb.query(`
+                        SELECT
+                            *
+                        FROM
+                            post_comments
+                        WHERE
+                            post_id = :post_id;
+                    `, { post_id: post.post_id });
+
+
+
+                    for (const row of comments_result.rows)
+                        if (row.data && typeof row.data === 'string')
+                            row.data = JSON.parse(row.data);
+
+                    return comments_result.rows;
+
+                } catch (error) {
+                    return [];
+                }
+
+
+            }
+        }
 
     })
 

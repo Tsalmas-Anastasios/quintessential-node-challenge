@@ -13,6 +13,7 @@ import { AuthLogoutRoutes } from './routes/auth/logout';
 import { Error404Routes } from './routes/errors/error-404';
 import { UsersRegisterRoutes } from './routes/users/register';
 import { PostsRoutes } from './routes/posts';
+import { CommentsRoutes } from './routes/comments';
 
 
 class App {
@@ -111,6 +112,9 @@ class App {
 
         // posts routes
         new PostsRoutes().createRoutes(this.app);
+
+        // comments routes
+        new CommentsRoutes().createRoutes(this.app);
 
 
 

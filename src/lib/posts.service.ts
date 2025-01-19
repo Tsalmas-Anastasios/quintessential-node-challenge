@@ -34,6 +34,13 @@ class GetPostsService {
                             likes
                             created_at
                             updated_at
+
+                            comments{
+                                comment_id
+                                user_id
+                                comment
+                                created_at
+                            }
                         }
                     }
                 `,

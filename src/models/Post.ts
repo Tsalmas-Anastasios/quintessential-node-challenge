@@ -1,3 +1,5 @@
+import { PostComment } from './PostComment';
+
 export class Post {
 
     // define required fields
@@ -29,6 +31,9 @@ export class Post {
     created_at?: string | Date;
     updated_at?: string | Date;
 
+
+    comments?: PostComment[];
+
     constructor(props?: Post) {
         this.post_id = props?.post_id || null;
         this.user_id = props?.user_id || null;
@@ -38,6 +43,9 @@ export class Post {
         this.likes = props?.likes || null;
         this.created_at = props?.created_at || null;
         this.updated_at = props?.updated_at || null;
+
+
+        this.comments = props?.comments || [];
     }
 
 }

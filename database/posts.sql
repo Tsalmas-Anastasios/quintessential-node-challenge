@@ -6,7 +6,7 @@ CREATE TABLE `posts` (
   `description` text NOT NULL,
   `likes` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` text NOT NULL DEFAULT 'current_timestamp()',
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`post_id`),
   KEY `posts_users_FK` (`user_id`),
   CONSTRAINT `posts_users_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
