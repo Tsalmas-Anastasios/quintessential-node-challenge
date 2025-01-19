@@ -6,9 +6,9 @@ import * as lodash from 'lodash';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as jwt from 'jsonwebtoken';
-import { accountsDb } from './connectors/db/accounts-db';
-import { check_user_logged_in } from './middlewares/check-user-logged-in.middleware';
+import { mysqlDb } from './connectors/mysql-dp';
 import { config } from '../config';
+import { stringValidator } from './stringValidator.service';
 require('dotenv').config();
 
 
@@ -21,12 +21,9 @@ class UtilsService {
     public path;
     public fs;
     public jwt;
+    public mysqlDb;
 
-
-    /** Middleware function for checking if user's session exist */
-    public checkAuth;
-
-
+    public stringValidator;
 
 
     constructor() {
@@ -35,9 +32,9 @@ class UtilsService {
         this.path = path;
         this.fs = fs;
         this.jwt = jwt;
+        this.mysqlDb = mysqlDb;
 
-        /** Middleware function for checking if user's session exist */
-        this.checkAuth = check_user_logged_in;
+        this.stringValidator = stringValidator;
     }
 
 
@@ -241,62 +238,6 @@ class UtilsService {
     }
 
 
-
-
-    // error handler
-    async systemErrorHandler(error_obj: any): Promise<void> {
-
-        try {
-
-            const result = await accountsDb.query(`
-                INSERT INTO
-                    system_errors
-                SET
-                    error_code = :error_code,
-                    error_metadata = :error_metadata;
-            `, {
-                error_code: error_obj?.code ? Number(error_obj.code) : 500,
-                error_metadata: JSON.stringify(error_obj),
-            });
-
-        } catch (error) {
-
-            if (!config.production) console.log(`${this.chalk.red('Error obj:')} ${error}`);
-
-            // return res.status(500).send({
-            //     code: 500,
-            //     type: 'cannot_connect_to_the_db',
-            //     message: 'Cannot connect to the DB'
-            // });
-
-        }
-
-
-        if (!config.production) console.log(`${this.chalk.red('Error obj:')} ${error_obj}`);
-
-        // return res.status(error_obj?.code ? Number(error_obj.code) : 500).send(error_obj);
-
-    }
-
-
-
-
-    // parse html template for emails
-    parseHtmlEmailTemplate(data: { template_name: string, data: any }): string {
-
-        let html_template = this.fs.readFileSync(this.path.join(__dirname, `../ui/email-templates/${data.template_name}.html`), 'utf8').toString();
-
-        for (const prop in data.data)
-            html_template = html_template.replace(new RegExp(`{{${prop}}}`, 'g'), data.data[prop]);
-
-
-        return html_template;
-
-    }
-
-
-
-
     /** create graphql sql query */
     createGraphqlSQLQuery(args: any, context?: any): { limit: number, offset: number, query_string: string } {
 
@@ -391,16 +332,6 @@ class UtilsService {
     }
 
 
-
-
-    findAccountIdBasedOnSession(params: { req: Request, account_id?: string }): string {
-
-        if (!params?.account_id)
-            return params.req.session.user.account_id;
-
-        return params.account_id;
-
-    }
 
 }
 

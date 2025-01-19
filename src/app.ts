@@ -4,16 +4,14 @@ import * as cors from 'cors';
 import * as https from 'https';
 require('dotenv').config();
 
-import { Account } from './models';
-
 import { utilsService } from './lib/utilities.service';
-import { mysqlDb } from './lib/connectors/mysql-dp';
 
 
 import { IndexRoutes } from './routes/index';
 import { AuthLoginRoutes } from './routes/auth/login';
 import { AuthLogoutRoutes } from './routes/auth/logout';
 import { Error404Routes } from './routes/errors/error-404';
+import { UsersRegisterRoutes } from './routes/users/register';
 
 
 class App {
@@ -103,12 +101,17 @@ class App {
         // index routes
         new IndexRoutes().createRoutes(this.app);
 
-        // error routes
-        new Error404Routes().createRoutes(this.app);        // error 404
-
         // auth routes
         new AuthLoginRoutes().createRoutes(this.app);       // login
         new AuthLogoutRoutes().createRoutes(this.app);      // logout
+
+        // users routes
+        new UsersRegisterRoutes().createRoutes(this.app);   // register
+
+
+
+        // error routes
+        new Error404Routes().createRoutes(this.app);        // error 404
 
     }
 

@@ -25,26 +25,6 @@ module.exports = function (grunt) {
             }
         },
         copy: {
-            public: {
-                files: [
-                    {
-                        src: ['public/**'],
-                        dest: './dist',
-                        cwd: './src',
-                        expand: true,
-                    }
-                ]
-            },
-            sql_queries: {
-                files: [
-                    {
-                        src: ['sql_queries/**'],
-                        dest: './dist',
-                        cwd: './src',
-                        expand: true,
-                    }
-                ]
-            },
             https_local_certs: {
                 files: [
                     {
@@ -55,26 +35,6 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-            log_files: {
-                files: [
-                    {
-                        src: ['logs/**'],
-                        dest: './dist',
-                        cwd: './src',
-                        expand: true,
-                    }
-                ]
-            },
-            ui: {
-                files: [
-                    {
-                        src: ['ui/**'],
-                        dest: './dist',
-                        cwd: './src',
-                        expand: true,
-                    }
-                ]
-            }
         },
     });
 

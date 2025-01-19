@@ -10,7 +10,7 @@ export class AuthLogoutRoutes {
 
         // logout route
         app.route('/api/auth/logout')
-            .post(utilsService.checkAuth, async (req: Request, res: Response) => {
+            .post(async (req: Request, res: Response) => {
 
                 // -------------------------- REQUEST DATA --------------------------
                 //  NONE

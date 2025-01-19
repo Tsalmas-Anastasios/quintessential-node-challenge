@@ -1,5 +1,4 @@
 import { GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLString } from 'graphql';
-import { accountsDb } from '../lib/connectors/db/accounts-db';
 import { utilsService } from '../lib/utilities.service';
 
 

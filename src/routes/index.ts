@@ -16,13 +16,13 @@ export class IndexRoutes {
 
 
 
-                if (req?.session?.user?.account_id)
-                    return res.status(200).send({
-                        message: 'You are successfully authenticated to use the system!',
-                        user: req.session.user,
-                    });
+                // if (req?.session?.user?.account_id)
+                //     return res.status(200).send({
+                //         message: 'You are successfully authenticated to use the system!',
+                //         user: req.session.user,
+                //     });
 
-                return res.status(200).send({ message: 'Hi, you are unauthorized to have access in this system!', pass: utilsService.generateHash('vGwjoD^teYSAA*XgQ7rN'), });
+                return res.status(200).send({ message: 'Hi, you are unauthorized to have access in this system!' });
 
             });
 
