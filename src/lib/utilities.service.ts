@@ -255,9 +255,9 @@ class UtilsService {
     /** create graphql sql query */
     createGraphqlSQLQuery(args: any, context?: any): { limit: number, offset: number, query_string: string } {
 
-        const queryParams: { limit: number, offset: number, query_string: string } = { limit: 100, offset: 0, query_string: '' };
+        const queryParams: { limit: number, offset: number, query_string: string } = { limit: args?.limit || 100, offset: 0, query_string: '' };
 
-        if (args?.page || context?.query?.page) { // page = 3
+        if (typeof args?.page !== undefined || typeof context?.query?.page !== undefined) { // page = 3
 
             const page: number = args.page ? args.page : context?.query?.page ? parseInt(context.query.page) : 1;
 
@@ -267,6 +267,7 @@ class UtilsService {
                 queryParams.offset = (page - 1) * queryParams.limit;
 
             delete args.page;
+            delete args.limit;
 
         }
 

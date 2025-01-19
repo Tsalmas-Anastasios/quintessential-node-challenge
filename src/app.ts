@@ -12,6 +12,7 @@ import { AuthLoginRoutes } from './routes/auth/login';
 import { AuthLogoutRoutes } from './routes/auth/logout';
 import { Error404Routes } from './routes/errors/error-404';
 import { UsersRegisterRoutes } from './routes/users/register';
+import { PostsRoutes } from './routes/posts';
 
 
 class App {
@@ -107,6 +108,9 @@ class App {
 
         // users routes
         new UsersRegisterRoutes().createRoutes(this.app);   // register
+
+        // posts routes
+        new PostsRoutes().createRoutes(this.app);
 
 
 

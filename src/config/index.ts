@@ -22,7 +22,7 @@ class Config {
         this.session_refresh_expiration = process.env.SESSION_REFRESH_EXPIRATION;
 
         // basic nanoid alphabet
-        this.nanoid_basic_alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^*~-_=';
+        this.nanoid_basic_alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
         this.nanoid_basic_length = 16;
 
     }

@@ -87,11 +87,13 @@ export class AuthLoginRoutes {
 
                         ON DUPLICATE KEY UPDATE
                             access_token = :access_token,
-                            refresh_token = :refresh_token;
+                            refresh_token = :refresh_token
+                            updated_at = :updated_at;
                     `, {
                         user_id: user.user_id,
                         access_token: access_token,
-                        refresh_token: refresh_token
+                        refresh_token: refresh_token,
+                        updated_at: new Date()
                     });
 
                 } catch (error) {
@@ -162,11 +164,13 @@ export class AuthLoginRoutes {
                         UPDATE
                             auth_tokens
                         SET
-                            access_token = :access_token
+                            access_token = :access_token,
+                            updated_at = :updated_at
                         WHERE
                             user_id = :user_id;
                     `, {
                         access_token: newAccessToken,
+                        updated_at: new Date(),
                         user_id: decoded_jwt.user_id
                     });
 
