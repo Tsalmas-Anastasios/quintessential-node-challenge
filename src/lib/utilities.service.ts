@@ -9,6 +9,7 @@ import * as jwt from 'jsonwebtoken';
 import { mysqlDb } from './connectors/mysql-dp';
 import { config } from '../config';
 import { stringValidator } from './stringValidator.service';
+import { tokenAuthenticationService } from './tokenAuthentication.service';
 require('dotenv').config();
 
 
@@ -22,8 +23,10 @@ class UtilsService {
     public fs;
     public jwt;
     public mysqlDb;
+    public bcrypt;
 
     public stringValidator;
+    public tokenAuthentication;
 
 
     constructor() {
@@ -33,8 +36,10 @@ class UtilsService {
         this.fs = fs;
         this.jwt = jwt;
         this.mysqlDb = mysqlDb;
+        this.bcrypt = bcrypt;
 
         this.stringValidator = stringValidator;
+        this.tokenAuthentication = tokenAuthenticationService;
     }
 
 
@@ -47,8 +52,8 @@ class UtilsService {
 
     /** Generates hashed version of a string (e.g. hash of user's password)  */
     generateHash(value: string): string {
-        const salt = bcrypt.genSaltSync(12);
-        const hash = bcrypt.hashSync(value, salt);
+        const salt = this.bcrypt.genSaltSync(12);
+        const hash = this.bcrypt.hashSync(value, salt);
         return hash;
     }
 
