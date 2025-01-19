@@ -348,6 +348,105 @@ class UtilsService {
 
 
 
+
+
+    // get next pages and previous pages for pagination for records
+    async getPagesPagination(params: { current_page: number, limit: number, db_table: string }): Promise<{ previous_pages: number, next_pages: number }> {
+
+        const pages: { previous_pages: number, next_pages: number } = {
+            previous_pages: 0,
+            next_pages: 0
+        };
+
+
+        try {
+
+            const offset = (params.current_page - 1) * params.limit;
+
+            let down_offset = 0;
+            if (offset !== 0)
+                down_offset = offset - 1;
+
+            const up_offset = offset + params.limit + 1;
+
+
+
+            const promises: [
+                Promise<number>,        // before pages
+                Promise<number>,        // next pages
+            ] = [
+
+                    // before pages
+                    new Promise(async (resolve, reject) => {
+
+                        try {
+
+                            const result = await utilsService.mysqlDb.query(`
+                            SELECT
+                                count(*) as count
+                            FROM
+                                ${params.db_table}
+                            limit :limit
+                        `, {
+                                limit: down_offset
+                            });
+
+
+                            resolve(result.rows[0].count);
+
+                        } catch (error) {
+                            reject(error);
+                        }
+
+                    }),
+
+
+                    // next pages
+                    new Promise(async (resolve, reject) => {
+
+                        try {
+
+                            const result = await utilsService.mysqlDb.query(`
+                            SELECT
+                                count(*) as count
+                            FROM
+                                ${params.db_table}
+                            offset :offset
+                        `, {
+                                offset: up_offset
+                            });
+
+
+                            resolve(result.rows[0].count);
+
+                        } catch (error) {
+                            reject(error);
+                        }
+
+                    })
+
+                ];
+
+
+
+
+            const [previous_pages, next_pages] = await Promise.all(promises);
+
+
+            pages.previous_pages = previous_pages;
+            pages.next_pages = next_pages;
+
+
+            return Promise.resolve(pages);
+
+        } catch (error) {
+            return Promise.reject(error);
+        }
+
+    }
+
+
+
 }
 
 

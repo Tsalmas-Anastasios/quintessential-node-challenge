@@ -41,7 +41,10 @@ export class CommentsRoutes {
                     meta['page'] = query_params.page;
                     meta['limit'] = query_params.limit;
 
-                    // TODO: next, previous pages
+                    const pages: { previous_pages: number, next_pages: number } = await utilsService.getPagesPagination({ current_page: query_params.page, limit: query_params.limit, db_table: 'post_comments' });
+                    meta['previous_pages'] = pages.previous_pages;
+                    meta['next_pages'] = pages.next_pages;
+
 
                     return res.status(200).send({
                         ...meta,

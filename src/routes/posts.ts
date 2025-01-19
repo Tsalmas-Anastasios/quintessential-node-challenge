@@ -53,9 +53,9 @@ export class PostsRoutes {
                     };
 
 
-                    // next pages
-                    // previous pages
-
+                    const pages: { previous_pages: number, next_pages: number } = await utilsService.getPagesPagination({ current_page: query_params.graphql.page, limit: query_params.graphql.limit, db_table: 'post' });
+                    meta['previous_pages'] = pages.previous_pages;
+                    meta['next_pages'] = pages.next_pages;
 
                     return res.status(200).send({
                         ...meta,
