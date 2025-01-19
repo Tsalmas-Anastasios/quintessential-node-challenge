@@ -1,1 +1,0 @@
-export { AccountTypeType } from './AccountTypeType';
