@@ -150,7 +150,7 @@ export class AuthLoginRoutes {
 
                 // generate new token - START
                 const decoded_jwt = utilsService.decodeJsonWebTokenJWT({ jwt: refresh_token, completed: true });
-                const newAccessToken = utilsService.tokenAuthentication.generateAccessToken(decoded_jwt.userId);
+                const newAccessToken = utilsService.tokenAuthentication.generateAccessToken(decoded_jwt.user_id);
                 // generate new token - END
 
 
@@ -167,7 +167,7 @@ export class AuthLoginRoutes {
                             user_id = :user_id;
                     `, {
                         access_token: newAccessToken,
-                        user_id: decoded_jwt.userId
+                        user_id: decoded_jwt.user_id
                     });
 
                 } catch (error) {

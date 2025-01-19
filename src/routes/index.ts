@@ -14,15 +14,7 @@ export class IndexRoutes {
                 // -------------------------- REQUEST DATA --------------------------
                 //  NONE
 
-
-
-                // if (req?.session?.user?.account_id)
-                //     return res.status(200).send({
-                //         message: 'You are successfully authenticated to use the system!',
-                //         user: req.session.user,
-                //     });
-
-                return res.status(200).send({ message: 'Hi, you are unauthorized to have access in this system!' });
+                return res.status(200).send({ message: 'Hi!' });
 
             });
 

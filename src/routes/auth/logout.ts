@@ -13,24 +13,28 @@ export class AuthLogoutRoutes {
             .post(async (req: Request, res: Response) => {
 
                 // -------------------------- REQUEST DATA --------------------------
-                //  NONE
+                //  body: { refresh_token: string }
 
 
 
-                // try {
+                const refresh_token: string = req.body?.refresh_token || null;
+                if (!refresh_token)
+                    return res.status(403).send({ code: 403, type: 'refresh_token_missing', message: 'Refresh token is required but missing' });
 
-                //     req.session.destroy(async (err) => {
 
-                //         if (err)
-                //             throw new Error(err);
+                // delete tokens from db - START
+                try {
 
-                //         return res.status(200).send({ code: 200, status: '200 OK', type: 'logout_successful', message: 'Logout OK' });
+                    await utilsService.tokenAuthentication.deleteTokensRecord(refresh_token);
 
-                //     });
+                } catch (error) {
+                    return res.status(500).send({ code: 500, type: 'internal_server_error', message: error.message });
+                }
+                // delete tokens from db - END
 
-                // } catch (error) {
-                //     return res.status(500).send({ code: 500, type: 'internal_server_error', message: error.message });
-                // }
+
+
+                return res.status(200).send({ code: 200, type: '200 OK', message: 'User logout successfully' });
 
             });
 

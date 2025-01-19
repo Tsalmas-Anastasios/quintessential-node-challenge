@@ -10,6 +10,7 @@ import { mysqlDb } from './connectors/mysql-dp';
 import { config } from '../config';
 import { stringValidator } from './stringValidator.service';
 import { tokenAuthenticationService } from './tokenAuthentication.service';
+import { authenticateToken } from './middlewares/authenticateToken.mw';
 require('dotenv').config();
 
 
@@ -28,6 +29,10 @@ class UtilsService {
     public stringValidator;
     public tokenAuthentication;
 
+    public middlewares: {
+        authenticateToken;
+    };
+
 
     constructor() {
         this.moment = moment;
@@ -40,6 +45,10 @@ class UtilsService {
 
         this.stringValidator = stringValidator;
         this.tokenAuthentication = tokenAuthenticationService;
+
+        this.middlewares = {
+            authenticateToken: authenticateToken
+        };
     }
 
 

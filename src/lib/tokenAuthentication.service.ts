@@ -63,6 +63,20 @@ class TokenAuthenticationService {
     }
 
 
+
+    async deleteTokensRecord(refresh_token: string): Promise<void> {
+
+        try {
+
+            const deletion_result = await utilsService.mysqlDb.query(`DELETE FROM auth_tokens WHERE refresh_token = :refresh_token`, { refresh_token: refresh_token });
+
+        } catch (error) {
+            return Promise.reject(error);
+        }
+
+    }
+
+
 }
 
 
