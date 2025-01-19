@@ -1,4 +1,4 @@
-# schillz-backend
+# quintessential-node-challenge
 
 - Node version: 18
 
