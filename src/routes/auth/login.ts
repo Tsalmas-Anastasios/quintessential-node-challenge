@@ -9,7 +9,7 @@ export class AuthLoginRoutes {
 
 
         // local login
-        app.route('/api/auth/login/local')
+        app.route('/api/auth/login')
             .post(async (req: Request, res: Response) => {
 
 
