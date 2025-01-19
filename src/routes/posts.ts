@@ -2,7 +2,7 @@ import { PostGraphqlQueryParams } from './../graphql/query-models/PostQuery';
 import { Application, Request, Response } from 'express';
 import { utilsService } from '../lib/utilities.service';
 import { Post } from '../models';
-import { getPostsService } from '../lib/posts.service';
+import { getPostsService } from '../lib';
 import { config } from '../config';
 
 
@@ -119,7 +119,7 @@ export class PostsRoutes {
 
                 try {
 
-                    const update_result = await utilsService.mysqlDb.query(`
+                    const insertion_result = await utilsService.mysqlDb.query(`
                         INSERT INTO
                             posts
                         SET

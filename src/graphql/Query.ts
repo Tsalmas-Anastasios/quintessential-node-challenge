@@ -1,6 +1,8 @@
 import { GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLString, graphqlSync } from 'graphql';
 import { utilsService } from '../lib/utilities.service';
+
 import { PostType } from './types/Post';
+import { PostCommentType } from './types/PostComment';
 
 
 
@@ -51,6 +53,48 @@ const QueryType = new GraphQLObjectType({
                             posts
                         ${queryParams?.query_string ? `WHERE ${queryParams.query_string}` : ``}
                         ${order_by_date}
+                        LIMIT :limit
+                        offset :offset
+                    `, {
+                        limit: queryParams.limit,
+                        offset: queryParams.offset
+                    });
+
+
+                    return result.rows;
+
+                } catch (error) {
+                    return [];
+                }
+
+            }
+        },
+
+
+
+        // get post comments
+        post_comments: {
+            type: new GraphQLList(PostCommentType),
+            args: {
+                post_id: { type: GraphQLString },
+                user_id: { type: GraphQLString },
+                page: { type: GraphQLInt },
+                limit: { type: GraphQLInt },
+            },
+            resolve: async (record, args, context, info) => {
+
+                const queryParams: QueryParams = utilsService.createGraphqlSQLQuery(args, context);
+
+
+                try {
+
+                    const result = await utilsService.mysqlDb.query(`
+                        SELECT
+                            *
+                        FROM
+                            post_comments
+                        ${queryParams?.query_string ? `WHERE ${queryParams.query_string}` : ``}
+                        ORDER BY created_at
                         LIMIT :limit
                         offset :offset
                     `, {
