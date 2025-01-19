@@ -17,20 +17,20 @@ export class AuthLogoutRoutes {
 
 
 
-                try {
+                // try {
 
-                    req.session.destroy(async (err) => {
+                //     req.session.destroy(async (err) => {
 
-                        if (err)
-                            throw new Error(err);
+                //         if (err)
+                //             throw new Error(err);
 
-                        return res.status(200).send({ code: 200, status: '200 OK', type: 'logout_successful', message: 'Logout OK' });
+                //         return res.status(200).send({ code: 200, status: '200 OK', type: 'logout_successful', message: 'Logout OK' });
 
-                    });
+                //     });
 
-                } catch (error) {
-                    return res.status(500).send({ code: 500, type: 'internal_server_error', message: error.message });
-                }
+                // } catch (error) {
+                //     return res.status(500).send({ code: 500, type: 'internal_server_error', message: error.message });
+                // }
 
             });
 
