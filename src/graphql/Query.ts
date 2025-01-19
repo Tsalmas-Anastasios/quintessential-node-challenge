@@ -32,11 +32,14 @@ const QueryType = new GraphQLObjectType({
             },
             resolve: async (record, args, context, info) => {
 
-                const queryParams: QueryParams = utilsService.createGraphqlSQLQuery(args, context);
-
                 let order_by_date = '';
-                if (args?.order && (args.order === 'asc' || args.order === 'desc'))
-                    order_by_date = `ORDER BY created_at ${args.order === 'desc' ? 'DESC' : 'ASC'}`;
+                if (args?.order_by_date && (args.order_by_date === 'asc' || args.order_by_date === 'desc')) {
+                    order_by_date = `ORDER BY created_at ${args.order_by_date === 'desc' ? 'DESC' : 'ASC'}`;
+                    delete args.order_by_date;
+                }
+
+
+                const queryParams: QueryParams = utilsService.createGraphqlSQLQuery(args, context);
 
 
                 try {
@@ -47,9 +50,9 @@ const QueryType = new GraphQLObjectType({
                         FROM
                             posts
                         ${queryParams?.query_string ? `WHERE ${queryParams.query_string}` : ``}
+                        ${order_by_date}
                         LIMIT :limit
                         offset :offset
-                        ${order_by_date}
                     `, {
                         limit: queryParams.limit,
                         offset: queryParams.offset
