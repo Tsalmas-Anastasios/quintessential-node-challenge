@@ -382,17 +382,20 @@ class UtilsService {
                         try {
 
                             const result = await utilsService.mysqlDb.query(`
-                            SELECT
-                                count(*) as count
-                            FROM
-                                ${params.db_table}
-                            limit :limit
-                        `, {
+                                SELECT
+                                    count(*) as count
+                                FROM
+                                    ${params.db_table}
+                                limit :limit
+                            `, {
                                 limit: down_offset
                             });
 
 
-                            resolve(result.rows[0].count);
+                            if (result.rows[0].count % params.limit)
+                                resolve(result.rows[0].count);
+                            else
+                                resolve(Math.floor(result.rows[0].count / params.limit) + 1);
 
                         } catch (error) {
                             reject(error);
@@ -407,17 +410,21 @@ class UtilsService {
                         try {
 
                             const result = await utilsService.mysqlDb.query(`
-                            SELECT
-                                count(*) as count
-                            FROM
-                                ${params.db_table}
-                            offset :offset
-                        `, {
+                                SELECT
+                                    count(*) as count
+                                FROM
+                                    ${params.db_table}
+                                offset :offset
+                            `, {
                                 offset: up_offset
                             });
 
 
-                            resolve(result.rows[0].count);
+
+                            if (result.rows[0].count % params.limit)
+                                resolve(result.rows[0].count);
+                            else
+                                resolve(Math.floor(result.rows[0].count / params.limit) + 1);
 
                         } catch (error) {
                             reject(error);
